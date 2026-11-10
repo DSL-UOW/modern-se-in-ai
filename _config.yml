@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------
+# Decision Systems Lab site settings
+# ---------------------------------------------------------------------
+title: "Decision Systems Lab"
+tagline: "Modern Software Engineering in the AI Era"
+description: >-
+  The Decision Systems Lab at the University of Wollongong builds AI agents
+  for software engineering, and works with industry to bring them into
+  practice.
+university: "University of Wollongong"
+school: "School of Computing and Information Technology"
+address: "School of Computing and Information Technology, University of Wollongong, NSW 2522, Australia."
+
+# Deployment target: GitHub Pages project site https://dsl-uow.github.io/modern-se-in-ai/
+#   GitHub project site:  url: "https://<account>.github.io"  baseurl: "/<repository>"
+#   Custom domain:        url: "https://<domain>"              baseurl: ""
+url: "https://dsl-uow.github.io"
+baseurl: "/modern-se-in-ai"
+
+lang: en
+timezone: Australia/Sydney
+
+links:
+  contact: "https://www.uow.edu.au/research/decision-systems-lab/contact/"
+  uow_lab_page: "https://www.uow.edu.au/research/decision-systems-lab/"
+  github: "https://github.com/DSL-UOW"
+  latest_workshop: "https://dsl-uow.github.io/modern-se-in-ai-era-workshop-3/"
+  uow: "https://www.uow.edu.au/"
+
+markdown: kramdown
+permalink: pretty
+
+exclude:
+  - Makefile
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - scripts
+  - screenshots

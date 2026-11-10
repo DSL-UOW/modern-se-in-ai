@@ -1,0 +1,7 @@
+# Top navigation and footer links. URLs are section anchors on the home page.
+- title: Projects
+  url: '#projects'
+- title: Industry
+  url: '#industry'
+- title: Contact
+  url: '#contact'

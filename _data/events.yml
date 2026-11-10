@@ -1,0 +1,33 @@
+# Edit this file to change the Industry timeline. Keep the list newest first.
+# Events with the same year are grouped under one year label.
+# Optional fields: series, orgs, where, time, url.
+- year: 2026
+  date: 28 Aug 2026
+  type: Industry
+  series: 3rd edition
+  title: 'Modern Software Engineering in the AI Era: Industry Workshop'
+  who: 8 industry speakers on agentic development, AI-native practice and system architecture.
+  orgs: [Microsoft, Google, Canva, Deputy, AIONIX, Top Road]
+  where: Room 249, UOW Sydney CBD Campus
+  time: 14:00 to 17:00
+  url: https://dsl-uow.github.io/modern-se-in-ai-era-workshop-3/
+- year: 2026
+  date: 25 Jun 2026
+  type: Industry
+  series: 2nd edition
+  title: 'Modern Software Engineering in the AI Era: Industry Workshop'
+  who: 8 practitioners on AI-assisted development, then a panel on AI adoption in industry.
+  orgs: [Google India, INTECH, SPAN, Micromax, Sample Assist, V-DAQ, Devika, Vinyl]
+  where: Room 6.210, Wollongong campus
+  time: 16:00 to 18:00
+  url: https://dsl-uow.github.io/modern-se-in-ai-era-workshop-2/
+- year: 2026
+  date: 4 Feb 2026
+  type: Research
+  series: 1st edition
+  title: 'Modern Software Engineering in the AI Era: Research Workshop'
+  who: Keynote by Prof Tim Menzies (NC State), then 7 research talks on LLMs for program analysis, compilers, verification and quantum AI.
+  orgs: [NC State, Macquarie, Monash, Sydney, CSIRO Data61, UOW]
+  where: Room 6.209, Wollongong campus
+  time: 10:30 to 16:30
+  url: https://dsl-uow.github.io/modern-se-in-ai-era-workshop/

@@ -1,0 +1,11 @@
+<header>
+  <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+  <nav>
+    {%- for item in site.data.nav %}
+    <a href="{{ '/' | relative_url }}{{ item.url }}">{{ item.title }}</a>
+    {%- endfor %}
+    <a class="nav-mobile-cta" href="{{ site.links.contact }}">Work with us</a>
+  </nav>
+  <div class="nav-cta"><a class="btn btn-primary" href="{{ site.links.contact }}">Work with us</a></div>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 5h14M2 9h14M2 13h14"/></svg></button>
+</header>

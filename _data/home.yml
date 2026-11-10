@@ -1,0 +1,17 @@
+# Edit this file to change the home page text. The page reads it at build time.
+hero:
+  title: Modern software engineering in the AI era.
+  text: AI agents now plan, build, test and secure software next to people. Our projects study how to engineer these agent teams, and our workshops bring researchers and industry together to share what works.
+  meta: Agentic AI · Software engineering · Industry practice
+projects:
+  tag: Projects
+  title: Agentic AI for software engineering
+  text: What the lab builds, with a demo, the results and the research behind each project.
+industry:
+  tag: Industry
+  title: Industry
+  text: The Modern Software Engineering in the AI Era workshops bring researchers and industry practitioners together to share how AI changes software engineering practice.
+contact:
+  tag: Collaborate
+  title: Research collaboration on AI for software engineering.
+  text: We collaborate with universities and industry on joint research projects, research student supervision and workshops. Contact the lab to discuss a collaboration.
