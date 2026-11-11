@@ -1,62 +1,13 @@
-{%- comment -%}
-  One project card. Pass the project as include.p and a unique number as include.n.
-  The card shows the pitch, the proof numbers and the leads. The rest (quote,
-  how it works, team, related papers) opens with "Show project details".
-{%- endcomment -%}
+{%- comment -%} One card in the Research grid. The whole card opens the project page. {%- endcomment -%}
 {%- assign p = include.p -%}
-{%- assign did = 'pd-' | append: include.n -%}
-{%- capture detail -%}
-  {%- if p.quote -%}
-  <div class="dsec"><div class="flabel">What practitioners said</div><div><blockquote class="quote">“{{ p.quote.text }}”<cite>{{ p.quote.by }}</cite></blockquote></div></div>
-  {%- endif -%}
-  {%- if p.steps -%}
-  <div class="dsec"><div class="flabel">How it works</div><div><div class="how">
-    {%- if p.figure %}<figure><img src="{{ '/assets/img/' | append: p.figure.image | relative_url }}" alt="{{ p.figure.caption | escape }}" loading="lazy">{% if p.figure.caption %}<figcaption>{{ p.figure.caption }}</figcaption>{% endif %}</figure>{% endif %}
-    <ol class="steps">{% for x in p.steps %}<li><b>{{ x.title }}</b><span>{{ x.text }}</span></li>{% endfor %}</ol></div></div></div>
-  {%- endif -%}
-  {%- assign n_partners = p.partners | size -%}
-  {%- if p.leads or n_partners > 0 -%}
-  <div class="dsec"><div class="flabel">Team</div><div><div class="team{% if n_partners == 0 %} solo{% endif %}">
-    {%- if p.leads %}<div><div class="tlabel">Project leads</div><ul class="leads">
-      {%- for l in p.leads %}{% assign photo = l.photo | default: "" | strip %}<li class="lead"><span class="av{% if photo == "" %} ph{% endif %}">{% if photo != "" %}<img src="{{ '/assets/img/' | append: l.photo | relative_url }}" alt="">{% else %}{% include icon-person.svg %}{% endif %}</span><div><b>{{ l.name }}</b><span>{{ l.role }}</span></div></li>{% endfor -%}
-    </ul></div>{% endif %}
-    {%- if n_partners > 0 %}<div><div class="tlabel">Industry partners</div><div class="logos">
-      {%- for x in p.partners %}<img src="{{ '/assets/img/' | append: x.logo | relative_url }}" alt="{{ x.name | escape }}">{% endfor -%}
-    </div></div>{% endif %}
-  </div></div></div>
-  {%- endif -%}
-  {%- if p.papers -%}
-  <div class="dsec"><div class="flabel">Related papers</div><div>
-    {%- for r in p.papers %}<div class="paper">
-      {%- if r.links %}<a class="pt" href="{{ r.links[0].url }}" target="_blank" rel="noopener">{{ r.title }}</a>{% else %}<span class="pt">{{ r.title }}</span>{% endif %}
-      {%- if r.links %}<div class="plinks">{% for l in r.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} ↗</a>{% endfor %}</div>{% endif %}
-      <div class="meta">{% if r.venue %}<b>{{ r.venue }}</b> · {% endif %}{{ r.authors | join: ', ' }}</div></div>
-    {%- endfor %}
-  </div></div>
-  {%- endif -%}
-{%- endcapture -%}
-{%- assign has_detail = detail | strip | size -%}
-<article class="pcard">
-  {%- if p.media %}
-  <div class="media"><img src="{{ '/assets/img/' | append: p.media | relative_url }}" alt="{{ p.title | escape }}: screenshot of the platform">
-    {%- if p.video %}<button class="play-btn" type="button" data-video="{{ p.video }}" data-title="{{ p.title | escape }}">{% include icon-play.svg %}Watch demo{% if p.video_length %} · {{ p.video_length }}{% endif %}</button>{% endif -%}
+<article class="icard">
+  <div class="icover">
+    {%- if p.cover %}<img src="{{ '/assets/img/' | append: p.cover | relative_url }}" alt="" loading="eager">{% endif %}
+    {%- if p.video %}<span class="ibadge">{% include icon-play.svg %}Video{% if p.video_length %} · {{ p.video_length }}{% endif %}</span>{% endif %}
   </div>
-  {%- endif %}
-  <div class="pbody">
-    {%- if p.area %}<span class="area">{{ p.area }}</span>{% endif %}
-    <h4>{{ p.title }}</h4>
-    {%- if p.pitch %}<p class="pitch">{{ p.pitch }}</p>{% endif %}
-    {%- if p.stats %}
-    <div class="stats">{% for x in p.stats %}<div class="stat"><b>{{ x.value }}</b><span>{{ x.label }}</span></div>{% endfor %}</div>
-    {%- if p.stats_note %}<p class="stats-note">{{ p.stats_note }}</p>{% endif %}
-    {%- endif %}
-    {%- if p.leads %}<p class="byline">Led by {% for l in p.leads %}<b>{{ l.name }}</b>{% unless forloop.last %}{% if forloop.rindex == 2 %} and {% else %}, {% endif %}{% endunless %}{% endfor %}</p>{% endif %}
-    <div class="pctas">
-      {%- if p.cta %}<a class="btn btn-primary" href="{{ p.cta.url }}" target="_blank" rel="noopener">{{ p.cta.label }}</a>{% endif %}
-      {%- if has_detail > 0 %}<button class="btn btn-ghost dtoggle" type="button" aria-expanded="false" aria-controls="{{ did }}"><span>Show project details</span><span class="chev" aria-hidden="true">▾</span></button>{% endif -%}
-    </div>
+  <div class="ibody">
+    {%- if p.tags %}<div class="tags">{% for t in p.tags %}<span>{{ t }}</span>{% endfor %}</div>{% endif %}
+    <h3><a href="{{ p.url | relative_url }}">{{ p.title }}</a></h3>
+    <p class="idesc">{{ p.description }}</p>
   </div>
-  {%- if has_detail > 0 %}
-  <div class="pdetail" id="{{ did }}" hidden>{{ detail }}</div>
-  {%- endif %}
 </article>

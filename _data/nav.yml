@@ -1,7 +1,7 @@
-# Top navigation and footer links. URLs are section anchors on the home page.
-- title: Projects
-  url: '#projects'
+# Top navigation and footer links. One item per category page.
+- title: Research
+  url: research/
 - title: Industry
-  url: '#industry'
-- title: Contact
-  url: '#contact'
+  url: industry/
+- title: Community
+  url: community/

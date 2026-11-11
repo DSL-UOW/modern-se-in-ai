@@ -1,0 +1,13 @@
+{%- comment -%} One card in the Industry or Community grid. The card links to the event page. {%- endcomment -%}
+{%- assign e = include.e -%}
+<article class="icard ecard">
+  <div class="ibody">
+    <div class="etop"><span class="edate">{{ e.date }}</span>{% if e.type %}<span class="etype">{{ e.type }}</span>{% endif %}</div>
+    {%- if e.series %}<div class="eseries">{{ e.series }}</div>{% endif %}
+    <h3>{% if e.url %}<a href="{{ e.url }}" target="_blank" rel="noopener">{{ e.title }}</a>{% else %}{{ e.title }}{% endif %}</h3>
+    <p class="idesc">{{ e.who }}</p>
+    {%- if e.orgs %}<div class="eorgs">{% for o in e.orgs %}<span>{{ o }}</span>{% endfor %}</div>{% endif %}
+    {%- if e.where %}<div class="where">{% include pin.svg %}{{ e.where }}{% if e.time %} · {{ e.time }}{% endif %}</div>{% endif %}
+    {%- if e.url %}<span class="elink">Event page ↗</span>{% endif %}
+  </div>
+</article>

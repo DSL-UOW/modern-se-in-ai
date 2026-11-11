@@ -9,52 +9,29 @@ layout: default
     <h1>{{ home.hero.title }}</h1>
     <p>{{ home.hero.text }}</p>
     <div class="actions">
-      <a class="btn btn-primary" href="#projects">See the projects</a>
-      <a class="btn btn-ghost" href="#industry">Industry</a>
+      <a class="btn btn-primary" href="#areas">See our work</a>
+      <a class="btn btn-ghost" href="mailto:{{ site.contact_email }}">Contact us</a>
     </div>
   </div>
   <div class="hero-meta"><span>Scroll ↓</span><span>{{ home.hero.meta }}</span></div>
 </section>
 
-<!-- PROJECTS -->
-<section class="section" id="projects">
-  {% include section-head.html tag=home.projects.tag title=home.projects.title text=home.projects.text %}
-  <div class="wrap"><div class="pgrid" id="project-grid">
-    {%- for p in site.data.projects %}
-    {% include project-card.html p=p n=forloop.index %}
+<section class="section" id="areas">
+  {% include section-head.html tag=home.areas.tag title=home.areas.title text=home.areas.text %}
+  <div class="wrap"><div class="cgrid">
+    {%- for c in site.data.categories %}
+    {%- if c.id == 'research' %}{% assign n = site.projects | size %}{% assign unit = 'project' %}
+    {%- else %}{% assign n = site.data.events | where: 'category', c.id | size %}{% assign unit = 'event' %}{% endif %}
+    <article class="ccard">
+      <div class="ccover"><img src="{{ '/assets/img/covers/' | append: c.cover | relative_url }}" alt="" loading="eager"></div>
+      <div class="cbody">
+        <h3><a href="{{ '/' | append: c.id | append: '/' | relative_url }}">{{ c.title }}</a></h3>
+        <p>{{ c.text }}</p>
+        <span class="ccount">{% if n == 0 %}Coming soon{% else %}{{ n }} {{ unit }}{% if n != 1 %}s{% endif %}{% endif %} →</span>
+      </div>
+    </article>
     {%- endfor %}
   </div></div>
 </section>
 
-<!-- INDUSTRY -->
-<section class="section" id="industry">
-  {% include section-head.html tag=home.industry.tag title=home.industry.title text=home.industry.text %}
-  <div class="tl" id="timeline">
-    {%- assign last_year = nil %}
-    {%- for e in site.data.events %}
-    {%- if e.year != last_year %}
-    <div class="tl-year"><span>{{ e.year }}</span></div>
-    {%- assign last_year = e.year %}
-    {%- endif %}
-    <div class="tl-item"><div class="tl-card">
-      <div class="tl-top"><span class="tl-date">{{ e.date }}</span><span class="tl-type">{{ e.type }}</span></div>
-      {%- if e.series %}<div class="tl-series">{{ e.series }}</div>{% endif %}
-      <h4>{{ e.title }}</h4>
-      <p>{{ e.who }}</p>
-      {%- if e.orgs %}<div class="tl-orgs">{% for o in e.orgs %}<span>{{ o }}</span>{% endfor %}</div>{% endif %}
-      {%- if e.where %}<div class="where">{% include pin.svg %}{{ e.where }}{% if e.time %} · {{ e.time }}{% endif %}</div>{% endif %}
-      {%- if e.url %}<a class="tl-link" href="{{ e.url }}" target="_blank" rel="noopener">Workshop page ↗</a>{% endif %}
-    </div></div>
-    {%- endfor %}
-  </div>
-</section>
-
-<div class="cta" id="contact">
-  <canvas id="ctaField"></canvas>
-  <div>
-    <div class="tag">{{ home.contact.tag }}</div>
-    <h2>{{ home.contact.title }}</h2>
-    <p>{{ home.contact.text }}</p>
-  </div>
-  <div style="display:flex;gap:10px"><a class="btn btn-primary" href="{{ site.links.contact }}">Contact the team</a><a class="btn btn-ghost" href="{{ site.links.latest_workshop }}">Latest workshop</a></div>
-</div>
+{% include contact-cta.html %}

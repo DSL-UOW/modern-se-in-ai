@@ -1,0 +1,14 @@
+{%- comment -%} Team members with a link under each name, and partner logos on the right. {%- endcomment -%}
+{%- assign p = include.p -%}
+{%- assign n_partners = p.partners | size -%}
+<div class="team{% if n_partners == 0 %} solo{% endif %}">
+  <div><ul class="leads">
+    {%- for l in p.team %}{% assign photo = l.photo | default: "" | strip %}{% assign link = l.link | default: "" | strip %}
+    <li class="lead"><span class="av{% if photo == "" %} ph{% endif %}">{% if photo != "" %}<img src="{{ '/assets/img/' | append: l.photo | relative_url }}" alt="">{% else %}{% include icon-person.svg %}{% endif %}</span>
+      <div><b>{{ l.name }}</b><span>{{ l.role }}</span>{% if link != "" %}<a class="mlink" href="{{ link }}" target="_blank" rel="noopener">{% if l.link_label %}{{ l.link_label }}{% elsif link contains 'linkedin.com' %}LinkedIn{% else %}Profile{% endif %} ↗</a>{% endif %}</div></li>
+    {%- endfor %}
+  </ul></div>
+  {%- if n_partners > 0 %}<div><div class="tlabel">Industry partners</div><div class="logos">
+    {%- for x in p.partners %}<img src="{{ '/assets/img/' | append: x.logo | relative_url }}" alt="{{ x.name | escape }}">{% endfor -%}
+  </div></div>{% endif %}
+</div>

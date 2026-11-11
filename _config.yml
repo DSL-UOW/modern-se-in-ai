@@ -20,8 +20,14 @@ baseurl: "/modern-se-in-ai"
 lang: en
 timezone: Australia/Sydney
 
+# "Contact us" buttons open an email to this address.
+contact_email: "hoa@uow.edu.au"
+
+# A category page shows this many items. With more items, a "View all" button
+# opens the full list at /<category>/all/.
+list_limit: 10
+
 links:
-  contact: "https://www.uow.edu.au/research/decision-systems-lab/contact/"
   uow_lab_page: "https://www.uow.edu.au/research/decision-systems-lab/"
   github: "https://github.com/DSL-UOW"
   latest_workshop: "https://dsl-uow.github.io/modern-se-in-ai-era-workshop-3/"
@@ -29,6 +35,16 @@ links:
 
 markdown: kramdown
 permalink: pretty
+
+# One file in _projects/ = one research project page at /research/<file name>/.
+collections:
+  projects:
+    output: true
+    permalink: /research/:name/
+
+defaults:
+  - scope: { path: "", type: projects }
+    values: { layout: project }
 
 exclude:
   - Makefile
@@ -38,3 +54,4 @@ exclude:
   - vendor
   - scripts
   - screenshots
+  - PROJECT-TEMPLATE.md

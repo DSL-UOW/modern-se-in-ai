@@ -1,6 +1,6 @@
 <footer>
   <div><a class="brand" href="{{ '/' | relative_url }}" style="display:block;margin-bottom:14px;color:var(--text)">{{ site.title }}</a><p style="color:var(--dim);line-height:1.7;max-width:360px">{{ site.tagline }}. {{ site.address }}</p></div>
-  <div><h5>Initiative</h5>{%- for item in site.data.nav %}<a href="{{ '/' | relative_url }}{{ item.url }}">{{ item.title }}</a>{%- endfor %}</div>
+  <div><h5>Our work</h5>{%- for item in site.data.nav %}<a href="{{ '/' | append: item.url | relative_url }}">{{ item.title }}</a>{%- endfor %}<a href="mailto:{{ site.contact_email }}">Contact us</a></div>
   <div><h5>Links</h5><a href="{{ site.links.uow_lab_page }}">Decision Systems Lab</a><a href="{{ site.links.github }}">DSL on GitHub</a><a href="{{ site.links.uow }}">University of Wollongong</a></div>
   <div class="fine"><span>© {{ site.time | date: '%Y' }} {{ site.title }}, {{ site.university }}</span><span>AI × Software Engineering</span></div>
 </footer>

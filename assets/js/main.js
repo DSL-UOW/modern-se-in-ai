@@ -1,20 +1,12 @@
 /* Decision Systems Lab site script.
    Content is rendered at build time by Liquid (index.html + _data/*.yml).
    This script only adds behaviour:
-     - "Show project details" button on project cards
-     - video window for the "Watch demo" buttons
+     - video window for the "Watch video" button on a project page
      - breathing dot pattern in the hero and the contact block
      - mobile menu */
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ytId(u){const m=String(u).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);return m?m[1]:null}
-
-document.addEventListener('click',e=>{
-  const t=e.target.closest('.dtoggle');if(!t)return;
-  const card=t.closest('.pcard'),d=card.querySelector('.pdetail'),open=d.hidden;
-  d.hidden=!open;card.classList.toggle('open',open);t.setAttribute('aria-expanded',open);
-  t.querySelector('span').textContent=open?'Hide project details':'Show project details';
-});
 
 // video window: opens on the play button; closes with the button, a click outside, or Esc
 const vm=document.createElement('div');vm.className='vmodal';vm.setAttribute('role','dialog');vm.setAttribute('aria-modal','true');
@@ -31,7 +23,7 @@ function openVideo(url,title,from){
 function closeVideo(){if(!vm.classList.contains('on'))return;vm.classList.remove('on');vm.querySelector('.vslot').innerHTML='';document.body.style.overflow='';if(vmReturn)vmReturn.focus()}
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-video]');
-  if(b){e.preventDefault();e.stopPropagation();openVideo(b.dataset.video,b.dataset.title+' · demo',b);return}
+  if(b){e.preventDefault();e.stopPropagation();openVideo(b.dataset.video,b.dataset.title+' · video',b);return}
   if(e.target.closest('.vclose')||e.target===vm)closeVideo();
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo()});
@@ -128,14 +120,14 @@ document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>{hd
 function drawAll(){
   const narrow=innerWidth<=1024; /* phone + tablet: pattern goes under the text */
   const hero=document.getElementById('field'),cta=document.getElementById('ctaField');
-  if(!hero)return;                 /* pages without the hero, e.g. 404 */
+  /* the hero is on the home page only; the contact block is on every page */
   if(narrow){
-    heroDraw=buildField(hero,{step:16,fade:.001,blobs:[
+    if(hero)heroDraw=buildField(hero,{step:16,fade:.001,blobs:[
       {x:.78,y:.97,r:.42,w:1,blue:1},{x:.12,y:1.0,r:.3,w:.7,blue:.6},{x:.48,y:.95,r:.4,w:.45,blue:0}]});
     if(cta)buildField(cta,{step:14,fade:.001,blobs:[
       {x:.75,y:.98,r:.4,w:1,blue:1},{x:.25,y:1.0,r:.32,w:.5,blue:0}]})(null);
   }else{
-    heroDraw=buildField(hero);
+    if(hero)heroDraw=buildField(hero);
     if(cta)buildField(cta,{step:16,fade:.6,blobs:[{x:.9,y:.12,r:.13,w:1,blue:1},{x:.76,y:.08,r:.12,w:.5,blue:0}]})(null);
   }
   startHero();

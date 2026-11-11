@@ -1,7 +1,8 @@
-# Edit this file to change the Industry timeline. Keep the list newest first.
-# Events with the same year are grouped under one year label.
+# Events for the Industry and Community pages. Keep the list newest first.
+# category: industry or community (the page that shows the event).
 # Optional fields: series, orgs, where, time, url.
-- year: 2026
+- category: industry
+  year: 2026
   date: 28 Aug 2026
   type: Industry
   series: 3rd edition
@@ -11,7 +12,8 @@
   where: Room 249, UOW Sydney CBD Campus
   time: 14:00 to 17:00
   url: https://dsl-uow.github.io/modern-se-in-ai-era-workshop-3/
-- year: 2026
+- category: industry
+  year: 2026
   date: 25 Jun 2026
   type: Industry
   series: 2nd edition
@@ -21,7 +23,8 @@
   where: Room 6.210, Wollongong campus
   time: 16:00 to 18:00
   url: https://dsl-uow.github.io/modern-se-in-ai-era-workshop-2/
-- year: 2026
+- category: industry
+  year: 2026
   date: 4 Feb 2026
   type: Research
   series: 1st edition

@@ -1,0 +1,48 @@
+---
+layout: default
+---
+{%- comment -%}
+  One research project. Order: tags, title, description, team, video, results,
+  testimonial (optional), papers. The fields are in _projects/<name>.md.
+{%- endcomment -%}
+{%- assign p = page -%}
+<article class="project">
+  <div class="wrap">
+    <div class="crumb"><a href="{{ '/research/' | relative_url }}">← Research</a></div>
+    <div class="phead">
+      <div class="ptext">
+        {%- if p.tags %}<div class="tags">{% for t in p.tags %}<span>{{ t }}</span>{% endfor %}</div>{% endif %}
+        <h1>{{ p.title }}</h1>
+        <p class="pitch">{{ p.description }}</p>
+        {%- if p.team %}<div class="pteam">{% include team.html p=p %}</div>{% endif %}
+        <div class="pctas"><a class="btn btn-primary" href="mailto:{{ site.contact_email }}?subject={{ p.title | uri_escape }}">Contact us</a></div>
+      </div>
+      <div class="media">
+        {%- if p.cover %}<img src="{{ '/assets/img/' | append: p.cover | relative_url }}" alt="{{ p.title | escape }}: cover image" loading="eager">{% endif %}
+        {%- if p.video %}<button class="play-btn" type="button" data-video="{{ p.video }}" data-title="{{ p.title | escape }}">{% include icon-play.svg %}Watch video{% if p.video_length %} · {{ p.video_length }}{% endif %}</button>{% endif -%}
+      </div>
+    </div>
+
+    {%- if p.metrics %}
+    <div class="dsec"><div class="flabel">Results</div><div>
+      <div class="stats">{% for x in p.metrics %}<div class="stat"><b>{{ x.value }}</b><span>{{ x.label }}</span></div>{% endfor %}</div>
+      {%- if p.metrics_note %}<p class="stats-note">{{ p.metrics_note }}</p>{% endif %}
+    </div></div>
+    {%- endif %}
+
+    {%- if p.testimonial %}
+    <div class="dsec"><div class="flabel">Testimonial</div><div><blockquote class="quote">“{{ p.testimonial.text }}”<cite>{{ p.testimonial.by }}</cite></blockquote></div></div>
+    {%- endif %}
+
+    {%- if p.papers %}
+    <div class="dsec"><div class="flabel">Papers</div><div>
+      {%- for r in p.papers %}<div class="paper">
+        {%- if r.links %}<a class="pt" href="{{ r.links[0].url }}" target="_blank" rel="noopener">{{ r.title }}</a>{% else %}<span class="pt">{{ r.title }}</span>{% endif %}
+        {%- if r.links %}<div class="plinks">{% for l in r.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} ↗</a>{% endfor %}</div>{% endif %}
+        <div class="meta">{% if r.venue %}<b>{{ r.venue }}</b> · {% endif %}{{ r.authors | join: ', ' }}</div></div>
+      {%- endfor %}
+    </div></div>
+    {%- endif %}
+  </div>
+</article>
+{% include contact-cta.html subject=p.title %}

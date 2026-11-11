@@ -1,0 +1,19 @@
+# The three categories. Each one has a card on the home page and its own page.
+#   id      page address (/research/ ...) and the key that items use
+#   cover   image in assets/img/covers/ (scripts/make_covers.py makes them)
+#   empty   text on the category page when it has no items yet
+- id: research
+  title: Research
+  cover: research.svg
+  text: Our research projects. Each project has a short video, the main results and the papers.
+  empty: Research projects will appear here.
+- id: industry
+  title: Industry
+  cover: industry.svg
+  text: Workshops where industry practitioners and researchers share how AI changes software engineering practice.
+  empty: Industry events will appear here.
+- id: community
+  title: Community
+  cover: community.svg
+  text: Events and activities for the wider software engineering community.
+  empty: Community events will appear here.

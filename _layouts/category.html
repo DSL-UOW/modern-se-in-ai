@@ -1,0 +1,42 @@
+---
+layout: default
+---
+{%- comment -%}
+  A category page: a grid of cards, newest first.
+  The page shows site.list_limit items. With more items, "View all" opens /<category>/all/.
+{%- endcomment -%}
+{%- assign cat = site.data.categories | where: 'id', page.category | first -%}
+{%- if page.category == 'research' -%}
+  {%- assign items = site.projects | sort: 'date' | reverse -%}
+{%- else -%}
+  {%- assign items = site.data.events | where: 'category', page.category -%}
+{%- endif -%}
+{%- assign total = items | size -%}
+{%- if page.all -%}{%- assign limit = total -%}{%- else -%}{%- assign limit = site.list_limit -%}{%- endif -%}
+<section class="page-head">
+  <div class="wrap page-head-in">
+    <div>
+      <div class="tag">{% if page.all %}<a href="{{ '/' | append: cat.id | append: '/' | relative_url }}">← {{ cat.title }}</a>{% else %}{{ site.title }}{% endif %}</div>
+      <h1>{% if page.all %}All {{ cat.title | downcase }}{% else %}{{ cat.title }}{% endif %}</h1>
+      <p>{{ cat.text }}</p>
+    </div>
+    <img class="page-cover" src="{{ '/assets/img/covers/' | append: cat.cover | relative_url }}" alt="">
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="wrap">
+    {%- if total == 0 %}
+    <p class="empty">{{ cat.empty }}</p>
+    {%- else %}
+    <div class="igrid">
+      {%- for it in items limit: limit %}
+      {%- if page.category == 'research' %}{% include project-card.html p=it %}{% else %}{% include event-card.html e=it %}{% endif %}
+      {%- endfor %}
+    </div>
+    {%- if total > limit %}
+    <div class="more"><a class="btn btn-ghost" href="{{ '/' | append: cat.id | append: '/all/' | relative_url }}">View all {{ total }}</a></div>
+    {%- endif %}
+    {%- endif %}
+  </div>
+</section>
+{% include contact-cta.html %}
