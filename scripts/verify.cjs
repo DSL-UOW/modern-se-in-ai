@@ -118,7 +118,7 @@ function commonChecks(c, label) {
     check(pr.secs.join('|') === 'Results|Testimonial|Papers', 'project: sections below are Results, Testimonial, Papers', pr.secs);
     check(pr.stats.join() === '100%,83%,67%', 'project: 3 result metrics', pr.stats);
     check(pr.noteGap >= 8 && !/\d/.test(pr.noteText), 'project: survey note sits below the results border and has no participant count', [pr.noteGap, pr.noteText]);
-    check(pr.team.find(t => t.n === 'Hoa Khanh Dam')?.link === 'https://documents.uow.edu.au/~hoa/', 'project: Hoa card links to his homepage', pr.team);
+    check(pr.team.find(t => t.n === 'Hoa Khanh Dam')?.link === 'https://documents.uow.edu.au/~hoa/' && pr.team.find(t => t.n === 'Thanh-Long Bui')?.link === 'https://www.linkedin.com/in/thanhlongb/', 'project: Hoa links to his homepage, Long to LinkedIn', pr.team);
     check(pr.papers.includes('https://ieeexplore.ieee.org/document/11334617/') && pr.papers.includes('https://arxiv.org/abs/2509.14483'), 'project: paper links');
     await shot('project');
     await p.click('.play-btn'); await p.waitForTimeout(300);
@@ -135,6 +135,7 @@ function commonChecks(c, label) {
       h1: document.querySelector('.ptext h1')?.textContent,
       sents: (document.querySelector('.ptext .pitch')?.textContent.match(/[.!?](\s|$)/g) || []).length,
       team: [...document.querySelectorAll('.lead b')].map(e => e.textContent),
+      links: [...document.querySelectorAll('.lead .mlink')].map(a => a.textContent.trim() + ' ' + a.getAttribute('href')),
       secs: [...document.querySelectorAll('.project .flabel')].map(e => e.textContent),
       stats: [...document.querySelectorAll('.stat b')].map(e => e.textContent),
       note: document.querySelector('.stats-note')?.textContent || '',
@@ -142,9 +143,12 @@ function commonChecks(c, label) {
       cover: (() => { const i = document.querySelector('.project .media img'); return !!i && i.naturalWidth === 1920; })(),
       play: document.querySelector('.play-btn')?.textContent.trim(),
       emptyRole: [...document.querySelectorAll('.lead div > span')].filter(e => !e.textContent.trim()).length,
+      photos: [...document.querySelectorAll('.lead .av')].map(a => { const i = a.querySelector('img'); return i && i.naturalWidth > 0 ? i.getAttribute('src').split('/').pop() : 'none'; }),
     }));
     check(/^AI Product Owner agent/.test(po.h1) && po.sents <= 3 && po.cover && po.play === 'Watch video · 2:25', 'po-agent: title, description of 3 sentences or fewer, cover, video button', po);
     check(po.team.join('|') === 'Hirofumi Tanahashi|Hoa Khanh Dam|Thanh-Long Bui' && po.emptyRole === 0, 'po-agent: team in author order, no empty role line', po.team);
+    check(po.photos.join('|') === 'hirofumi.jpg|hoa.png|long.jpg', 'po-agent: every team member has a photo', po.photos);
+    check(po.links.join('|') === 'LinkedIn ↗ https://www.linkedin.com/in/hirofumi-tanahashi/|Homepage ↗ https://documents.uow.edu.au/~hoa/|LinkedIn ↗ https://www.linkedin.com/in/thanhlongb/', 'po-agent: every team member has a link', po.links);
     check(po.secs.join('|') === 'Results|Testimonial|Papers' && po.stats.join() === '83%,100%,90%' && !/\d/.test(po.note), 'po-agent: results, testimonial, papers; note has no participant count', po);
     check(/^Under review · Hirofumi Tanahashi, Hoa Khanh Dam, Thanh-Long Bui$/.test(po.paper.trim()), 'po-agent: paper is marked under review, with all 3 authors', po.paper);
     await shot('po-agent');

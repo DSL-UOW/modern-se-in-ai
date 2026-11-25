@@ -23,8 +23,8 @@ metrics_note: Participants had a voice interview with the agent, then rated the 
 team:
 - name: Hirofumi Tanahashi
   role: ""                  # TODO: role
-  photo: ""
-  link: ""                  # TODO: LinkedIn URL
+  photo: hirofumi.jpg
+  link: https://www.linkedin.com/in/hirofumi-tanahashi/
 - name: Hoa Khanh Dam
   role: Professor
   photo: hoa.png
@@ -32,8 +32,8 @@ team:
   link_label: Homepage
 - name: Thanh-Long Bui
   role: PhD researcher
-  photo: ""
-  link: ""                  # TODO: LinkedIn URL
+  photo: long.jpg
+  link: https://www.linkedin.com/in/thanhlongb/
 # Testimonial is optional. Source: manuscript, Section 3.2.2 (answer to Q12)
 testimonial:
   text: Good at staying within the topic and building more questions based on my answers.

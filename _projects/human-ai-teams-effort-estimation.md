@@ -22,8 +22,8 @@ metrics_note: Survey of software practitioners after a live estimation session w
 team:
 - name: Thanh-Long Bui
   role: PhD researcher
-  photo: ""
-  link: ""                  # TODO: LinkedIn URL
+  photo: long.jpg
+  link: https://www.linkedin.com/in/thanhlongb/
 - name: Hoa Khanh Dam
   role: Professor
   photo: hoa.png
