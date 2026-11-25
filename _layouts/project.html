@@ -15,7 +15,6 @@ layout: default
         <h1>{{ p.title }}</h1>
         <p class="pitch">{{ p.description }}</p>
         {%- if p.team %}<div class="pteam">{% include team.html p=p %}</div>{% endif %}
-        <div class="pctas"><a class="btn btn-primary" href="mailto:{{ site.contact_email }}?subject={{ p.title | uri_escape }}">Contact us</a></div>
       </div>
       <div class="media">
         {%- if p.cover %}<img src="{{ '/assets/img/' | append: p.cover | relative_url }}" alt="{{ p.title | escape }}: cover image" loading="eager">{% endif %}

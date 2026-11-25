@@ -200,6 +200,7 @@ footer .fine{grid-column:1/-1;display:flex;justify-content:space-between;border-
   .cgrid,.igrid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .page-head{padding:40px 28px}
   .page-head-in{grid-template-columns:1fr;gap:28px}
+  .page-cover{display:none}
   .project{padding:24px 28px 0}
   .cta-actions{align-items:flex-start}
   .cta{margin:88px 28px 0;padding:56px 36px;flex-direction:column;align-items:flex-start}

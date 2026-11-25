@@ -142,11 +142,13 @@ function commonChecks(c, label) {
       paper: document.querySelector('.paper .meta')?.textContent || '',
       cover: (() => { const i = document.querySelector('.project .media img'); return !!i && i.naturalWidth === 1920; })(),
       play: document.querySelector('.play-btn')?.textContent.trim(),
+      teamCta: document.querySelectorAll('.ptext .btn').length,
       emptyRole: [...document.querySelectorAll('.lead div > span')].filter(e => !e.textContent.trim()).length,
       photos: [...document.querySelectorAll('.lead .av')].map(a => { const i = a.querySelector('img'); return i && i.naturalWidth > 0 ? i.getAttribute('src').split('/').pop() : 'none'; }),
     }));
     check(/^AI Product Owner agent/.test(po.h1) && po.sents <= 3 && po.cover && po.play === 'Watch video · 2:25', 'po-agent: title, description of 3 sentences or fewer, cover, video button', po);
     check(po.team.join('|') === 'Hirofumi Tanahashi|Hoa Khanh Dam|Thanh-Long Bui' && po.emptyRole === 0, 'po-agent: team in author order, no empty role line', po.team);
+    check(po.teamCta === 0, 'po-agent: no button under the team list', po.teamCta);
     check(po.photos.join('|') === 'hirofumi.jpg|hoa.png|long.jpg', 'po-agent: every team member has a photo', po.photos);
     check(po.links.join('|') === 'LinkedIn ↗ https://www.linkedin.com/in/hirofumi-tanahashi/|Homepage ↗ https://documents.uow.edu.au/~hoa/|LinkedIn ↗ https://www.linkedin.com/in/thanhlongb/', 'po-agent: every team member has a link', po.links);
     check(po.secs.join('|') === 'Results|Testimonial|Papers' && po.stats.join() === '83%,100%,90%' && !/\d/.test(po.note), 'po-agent: results, testimonial, papers; note has no participant count', po);
@@ -157,7 +159,8 @@ function commonChecks(c, label) {
     for (const cat of ['industry', 'community']) {
       await go(cat + '/');
       commonChecks(await common(p), cat);
-      const c = await p.evaluate(() => ({ h1: document.querySelector('.page-head h1')?.textContent, cards: document.querySelectorAll('.igrid .icard').length, empty: !!document.querySelector('.empty'), tl: document.querySelectorAll('.tl, .tl-card').length }));
+      const c = await p.evaluate(() => ({ cover: getComputedStyle(document.querySelector('.page-cover')).display, h1: document.querySelector('.page-head h1')?.textContent, cards: document.querySelectorAll('.igrid .icard').length, empty: !!document.querySelector('.empty'), tl: document.querySelectorAll('.tl, .tl-card').length }));
+      check(s.w <= 1024 ? c.cover === 'none' : c.cover !== 'none', `${cat}: illustration ${s.w <= 1024 ? 'hidden' : 'shown'} at ${s.w}px`, c.cover);
       if (cat === 'industry') check(c.cards === 3 && c.tl === 0, 'industry: 3 event cards in the grid, no timeline', c);
       else check(c.empty && c.cards === 0, 'community: page shows the empty-state text', c);
       await shot(cat);
