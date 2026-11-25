@@ -7,8 +7,8 @@ tags: [Agile teams, Effort estimation]
 # Description: 3 sentences maximum.
 description: We build a platform where hybrid teams of human developers and AI agents meet online, discuss each user story and agree on the effort, in the same way as Planning Poker. Each agent takes a team role, such as front-end or back-end developer, explains its estimate and points to similar past stories.
 cover: seeagent-platform.jpg
-video: https://youtu.be/0jrmOUjQbi8
-video_length: "3:07"        # the target is 2:00 maximum
+video: seeagent.mp4         # file in assets/video/, or a YouTube link
+video_length: "1:56"
 # Result metrics highlights. Source: arXiv 2509.14483, human study, Section III-B and Fig. 4 (12 participants)
 metrics:
 - value: 100%

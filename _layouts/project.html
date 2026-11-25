@@ -19,7 +19,8 @@ layout: default
       </div>
       <div class="media">
         {%- if p.cover %}<img src="{{ '/assets/img/' | append: p.cover | relative_url }}" alt="{{ p.title | escape }}: cover image" loading="eager">{% endif %}
-        {%- if p.video %}<button class="play-btn" type="button" data-video="{{ p.video }}" data-title="{{ p.title | escape }}">{% include icon-play.svg %}Watch video{% if p.video_length %} · {{ p.video_length }}{% endif %}</button>{% endif -%}
+        {%- if p.video contains '://' %}{% assign vsrc = p.video %}{% else %}{% assign vsrc = '/assets/video/' | append: p.video | relative_url %}{% endif %}
+        {%- if p.video %}<button class="play-btn" type="button" data-video="{{ vsrc }}" data-title="{{ p.title | escape }}">{% include icon-play.svg %}Watch video{% if p.video_length %} · {{ p.video_length }}{% endif %}</button>{% endif -%}
       </div>
     </div>
 

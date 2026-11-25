@@ -10,6 +10,7 @@ const BASE = process.argv[2] || 'http://127.0.0.1:4077/modern-se-in-ai/';
 const OUT = __dirname + '/../screenshots/';
 const EMAIL = 'mailto:hoa@uow.edu.au';
 const PROJECT = 'research/human-ai-teams-effort-estimation/';
+const PO = 'research/ai-product-owner-agent/';
 const sizes = [
   { name: 'phone', w: 390, h: 844, dpr: 2, mobile: true },
   { name: 'tablet', w: 768, h: 1024, dpr: 2, mobile: true },
@@ -87,15 +88,15 @@ function commonChecks(c, label) {
     const r = await p.evaluate(() => ({
       h1: document.querySelector('.page-head h1')?.textContent, cards: document.querySelectorAll('.igrid .icard').length,
       title: document.querySelector('.icard h3')?.textContent.trim(),
-      tags: [...document.querySelectorAll('.icard .tags span')].map(e => e.textContent), high: document.querySelectorAll('.icard .stat, .icard .ihigh').length, cardText: document.querySelector('.icard').innerText,
+      tags: [...document.querySelectorAll('.icard:first-child .tags span')].map(e => e.textContent), high: document.querySelectorAll('.icard .stat, .icard .ihigh').length, cardText: document.querySelector('.icard').innerText,
       viewAll: !!document.querySelector('.more'),
     }));
-    check(r.h1 === 'Research' && r.cards === 1 && r.title === 'Human-AI teams in agile effort estimation' && r.high === 0 && !/100%/.test(r.cardText) && r.tags.length === 2 && !r.viewAll, 'research: grid with 1 project card, no result on the card, no "View all" under the limit', r);
+    check(r.h1 === 'Research' && r.cards === 2 && /^AI Product Owner agent/.test(r.title) && r.high === 0 && !/\d+%/.test(r.cardText) && r.tags.length === 2 && !r.viewAll, 'research: grid with 2 project cards (newest first), no result on the card, no "View all" under the limit', r);
     await shot('research');
     await p.locator('.icard').first().scrollIntoViewIfNeeded();
     const cb = await p.locator('.icard').first().boundingBox();
     await p.mouse.click(cb.x + cb.width / 2, cb.y + 30); await p.waitForURL(BASE + PROJECT, { timeout: 5000 }).catch(() => {});
-    check(p.url() === BASE + PROJECT, 'research: a click on the card opens the project page', p.url());
+    check(p.url() === BASE + PO, 'research: a click on the first card opens its project page', p.url());
 
     // 3. project page: field order from the template
     await go(PROJECT);
@@ -121,10 +122,32 @@ function commonChecks(c, label) {
     check(pr.papers.includes('https://ieeexplore.ieee.org/document/11334617/') && pr.papers.includes('https://arxiv.org/abs/2509.14483'), 'project: paper links');
     await shot('project');
     await p.click('.play-btn'); await p.waitForTimeout(300);
-    const v = await p.evaluate(() => ({ on: document.querySelector('.vmodal').classList.contains('on'), src: (document.querySelector('.vmodal iframe') || {}).src || '' }));
+    await p.waitForFunction(() => { const x = document.querySelector('.vmodal video'); return x && x.readyState >= 1; }, null, { timeout: 15000 }).catch(() => {});
+    const v = await p.evaluate(() => { const x = document.querySelector('.vmodal video'); return { on: document.querySelector('.vmodal').classList.contains('on'), video: x ? x.src : '', ready: !!x && x.readyState >= 1 && x.duration > 100 }; });
     await p.keyboard.press('Escape'); await p.waitForTimeout(150);
     const vOff = await p.evaluate(() => !document.querySelector('.vmodal').classList.contains('on'));
-    check(v.on && /embed\/0jrmOUjQbi8/.test(v.src) && vOff, 'project: "Watch video" opens and closes the video window');
+    check(v.on && v.video.endsWith('/assets/video/seeagent.mp4') && v.ready && vOff, 'project: "Watch video" plays the local video and closes', v);
+
+    // 3b. the AI Product Owner agent page
+    await go(PO);
+    commonChecks(await common(p), 'po-agent');
+    const po = await p.evaluate(() => ({
+      h1: document.querySelector('.ptext h1')?.textContent,
+      sents: (document.querySelector('.ptext .pitch')?.textContent.match(/[.!?](\s|$)/g) || []).length,
+      team: [...document.querySelectorAll('.lead b')].map(e => e.textContent),
+      secs: [...document.querySelectorAll('.project .flabel')].map(e => e.textContent),
+      stats: [...document.querySelectorAll('.stat b')].map(e => e.textContent),
+      note: document.querySelector('.stats-note')?.textContent || '',
+      paper: document.querySelector('.paper .meta')?.textContent || '',
+      cover: (() => { const i = document.querySelector('.project .media img'); return !!i && i.naturalWidth === 1920; })(),
+      play: document.querySelector('.play-btn')?.textContent.trim(),
+      emptyRole: [...document.querySelectorAll('.lead div > span')].filter(e => !e.textContent.trim()).length,
+    }));
+    check(/^AI Product Owner agent/.test(po.h1) && po.sents <= 3 && po.cover && po.play === 'Watch video · 2:25', 'po-agent: title, description of 3 sentences or fewer, cover, video button', po);
+    check(po.team.join('|') === 'Hirofumi Tanahashi|Hoa Khanh Dam|Thanh-Long Bui' && po.emptyRole === 0, 'po-agent: team in author order, no empty role line', po.team);
+    check(po.secs.join('|') === 'Results|Testimonial|Papers' && po.stats.join() === '83%,100%,90%' && !/\d/.test(po.note), 'po-agent: results, testimonial, papers; note has no participant count', po);
+    check(/^Under review · Hirofumi Tanahashi, Hoa Khanh Dam, Thanh-Long Bui$/.test(po.paper.trim()), 'po-agent: paper is marked under review, with all 3 authors', po.paper);
+    await shot('po-agent');
 
     // 4. industry and community: same card grid, no timeline
     for (const cat of ['industry', 'community']) {

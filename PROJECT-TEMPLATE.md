@@ -12,7 +12,7 @@ below and send them back with the files. The example page is
 | 4 | Result metrics | 1 to 3 numbers, each with a short label and its source. |
 | 5 | Team | Name, role, photo (optional) and one link: homepage or LinkedIn. |
 | 6 | Cover image | 16:9, 1280x720 minimum, JPG or PNG. |
-| 7 | Video | 2 minutes maximum. YouTube link (Unlisted is fine) or MP4 (1920x1080, H.264). The video must explain the whole project. |
+| 7 | Video | 2 minutes maximum. YouTube link (Unlisted is fine) or MP4 (1920x1080, H.264, 50 MB maximum). The video must explain the whole project. |
 | 8 | Testimonial | Optional. One quote, and who said it (for example a study participant). |
 | 9 | Paper list | Title, venue, all authors, and links (publisher, arXiv). |
 | 10 | Industry partners | Optional. Partner name and logo (SVG or PNG). |
